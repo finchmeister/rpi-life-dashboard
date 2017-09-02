@@ -20,10 +20,16 @@ $app->get('/hello/{name}', function ($name) use ($app) {
     $weatherData = new \RpiLifeDashboard\WeatherData\WeatherData();
     $forecast = $weatherData->getWeatherForecast();
 
+    $unsplash = (new \RpiLifeDashboard\Unsplash\Unsplash())
+        ->getRandomPhoto();
+
 
     return $app['twig']->render('dashboard.html.twig', array(
         'name' => $name,
         'forecast' => $forecast,
+        'unsplash' => [
+            'url' => $unsplash->urls['custom'],
+        ],
     ));
 });
 

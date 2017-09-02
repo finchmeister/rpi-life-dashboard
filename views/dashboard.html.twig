@@ -52,7 +52,7 @@
                 {% for weather in forecast %}
                     <br>
                     {{ weather.temperature }} at {{ weather.time.to|date }}
-                    Clouds: {{ weather.precipitation.value }}
+                    Precipitation: {{ weather.precipitation.value }}
 
                 {% endfor %}
                 Last Updated: {{ forecast.lastUpdate|date }}
@@ -60,6 +60,14 @@
                 <h1>Goodbye</h1>
             </div>
 
+        </div>
+
+        <div class="row">
+            <div class="col-6">
+
+
+                <img src="{{ unsplash.url }}">
+            </div>
         </div>
 
     </div>
