@@ -85,5 +85,12 @@ class GoogleCalendar
         return $results->getItems();
     }
 
+    private function transformEvents(\Google_Service_Calendar_Event $events)
+    {
+        foreach ($events as $event) {
+
+        }
+
+    }
 
 }
