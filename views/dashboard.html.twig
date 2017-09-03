@@ -7,17 +7,175 @@
     <title>Dashboard</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 
+    <style>
+        .bg {
+            background-color: rgb(41, 40, 46);
+            color: white;
+        }
+
+        #clock {
+            font-size: 10rem;
+        }
+        #clock-date {
+            font-size: 2rem;
+        }
+        .blockquote {
+            font-size: 1.5rem;
+        }
+        #weather-temperature {
+            font-size: 5rem;
+        }
+
+
+    </style>
 </head>
-<body>
+<body class="bg">
 
-    <div class="bg">
 
+
+
+
+    <div class="container-fluid">
+        <div class="row">
+
+            <div class="col-6">
+                <div class="p-2 text-center clock-widget">
+                    <div id="clock" class="display-1">{{ time|date('H:i:s') }}</div>
+                    <div id="clock-date">
+                        <small class="text-muted text-center">{{ time|date('l, jS F Y') }}</small>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="col-6">
+                <div class="weather-widget p-2">
+                    <div class="row">
+                        <div class="col-6">
+                            <h1>
+                                <i class="fa fa-map-marker" aria-hidden="true"></i>
+                                {{ weather.city.name }}
+                            </h1>
+                                {{ weather.weather.description|capitalize }}
+
+                        </div>
+                        <div class="col-6">
+                            <img src="https://openweathermap.org/themes/openweathermap/assets/vendor/owm/img/widgets/{{ weather.weather.icon }}.png">
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-6">
+                            <h1 id="weather-temperature">
+                                {{ weather.temperature.now.value|number_format }}
+                                {{ weather.temperature.now.unit|raw }}
+                            </h1>
+                            {{ weather.temperature.max|raw }} /
+                            {{ weather.temperature.min|raw }}
+                        </div>
+                        <div class="col-6">
+                            Details
+                            <ul class="list-unstyled">
+                                <li>Humidity: {{ weather.humidity }}</li>
+                                <li>Wind: {{ weather.wind.speed }}</li>
+                                <li>Sunrise: {{ weather.sun.rise|date('H:i') }}</li>
+                                <li>Sunset: {{ weather.sun.set|date('H:i') }}</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    Last Updated: {{ weather.lastUpdate|date }}
+
+                </div>
+
+
+
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-6">
+
+                <img src="{{ unsplash.url }}">
+            </div>
+            <div class="col-6">
+                <div class="train-widget p-2">
+                    <h2>Trains</h2>
+
+                    <table class="table table-striped table-bordered table-inverse">
+                        <thead>
+                        <tr>
+                            <th>Dep.</th>
+                            <th>From</th>
+                            <th>To</th>
+                            <th>Arr</th>
+                            <th>Dur.</th>
+                            <th>Status</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        {% for train in trains %}
+                            <tr>
+                                <td>{{ train.std }}</td>
+                                <td>
+                                    {{ train.departureLocation }}
+                                    <div>
+                                        <small class="text-muted">
+                                            Platform: {{ train.departurePlatform }}
+                                        </small>
+                                    </div>
+                                </td>
+                                <td>
+                                    {{ train.arrivalLocation }}
+                                    <div>
+                                        <small class="text-muted">
+                                            Platform: {{ train.arrivalPlatform }}
+                                        </small>
+                                    </div>
+                                </td>
+                                <td>{{ train.sta }}</td>
+                                <td>{{ train.duration }}m</td>
+                                <td>{{ train.eta }}</td>
+                            </tr>
+                        {% endfor %}
+
+                        </tbody>
+                    </table>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+
+                <div class="d-flex justify-content-center">
+                    <blockquote class="blockquote blockquote-reverse">
+                        <p class="mb-0">"{{ quote.quoteText }}"</p>
+                        <footer class="blockquote-footer"><cite title="Source Title">{{ quote.quoteAuthor }}</cite></footer>
+                    </blockquote>
+                </div>
+
+
+            </div>
+
+        </div>
     </div>
 
 
-    <span id="clock"></span>
+<!-- jQuery first, then Tether, then Bootstrap JS. -->
+<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
 
+    {#TODO organise properly#}
     <script>
         (function () {
 
@@ -34,85 +192,6 @@
         }());
     </script>
 
-    <div class="container-fluid">
-        <div class="row">
 
-            <div class="col-6">
-                <h1>Hello Twig {{ name }}</h1>
-            </div>
-
-            <div class="col-6">
-                {#TODO#}
-                Sunrise
-                {{ forecast.sun.rise|date }}
-
-                Sunset
-                {{ forecast.sun.set|date }}
-
-                {% for weather in forecast %}
-                    <br>
-                    {{ weather.temperature }} at {{ weather.time.to|date }}
-                    Precipitation: {{ weather.precipitation.value }}
-
-                {% endfor %}
-                Last Updated: {{ forecast.lastUpdate|date }}
-
-                <h1>Goodbye</h1>
-            </div>
-
-        </div>
-
-        <div class="row">
-            <div class="col-6">
-
-
-                <img src="{{ unsplash.url }}">
-            </div>
-            <div class="col-6">
-                <h2>Trains</h2>
-
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th>Dep.</th>
-                        <th>From</th>
-                        <th>To</th>
-                        <th>Arr</th>
-                        <th>Dur.</th>
-                        <th>Status</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    
-                    {% for train in trains %}
-                        <tr>
-                            <td>{{ train.std }}</td>
-                            <td>
-                                {{ train.departureLocation }}
-                                Platform: {{ train.departurePlatform }}
-                            </td>
-                            <td>
-                                {{ train.arrivalLocation }}
-                                Platform: {{ train.arrivalPlatform }}
-                            </td>
-                            <td>{{ train.sta }}</td>
-                            <td>{{ train.duration }}m</td>
-                            <td>{{ train.eta }}</td>
-                        </tr>
-                    {% endfor %}
-
-                    </tbody>
-                </table>
-
-            </div>
-        </div>
-
-    </div>
-
-
-<!-- jQuery first, then Tether, then Bootstrap JS. -->
-<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
 </body>
 </html>

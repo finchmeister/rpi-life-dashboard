@@ -9,3 +9,11 @@
 ## Unsplash
 
 <https://github.com/unsplash/unsplash-php>
+
+## Google Calendar
+
+<https://developers.google.com/google-apps/calendar/quickstart/php>
+
+## Trains
+
+<https://github.com/railalefan/phpOpenLDBWS>

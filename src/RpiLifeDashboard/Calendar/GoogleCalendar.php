@@ -74,10 +74,11 @@ class GoogleCalendar
     {
         $calendarId = 'primary';
         $optParams = array(
-            'maxResults' => 10,
+            'maxResults' => 20,
             'orderBy' => 'startTime',
             'singleEvents' => TRUE,
             'timeMin' => date('c'),
+            'timeMax' => date('c', time() + 7 * 24 * 60 * 60), // 1 week
         );
         $results = $this->service->events->listEvents($calendarId, $optParams);
 

@@ -29,6 +29,19 @@ class WeatherData
         }
     }
 
+    public function getCurrentWeather($query): OpenWeatherMap\CurrentWeather
+    {
+        try {
+            $current = $this->owm->getWeather(
+                $query, self::UNIT, self::LANG
+            );
+        } catch(OWMException $e) {
+            echo 'OpenWeatherMap exception: ' . $e->getMessage() . ' (Code ' . $e->getCode() . ').';
+        } catch(\Exception $e) {
+            echo 'General exception: ' . $e->getMessage() . ' (Code ' . $e->getCode() . ').';
+        }
+        return $current;
+    }
 
     public function getWeatherForecast($query): OpenWeatherMap\WeatherForecast
     {

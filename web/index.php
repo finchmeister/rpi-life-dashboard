@@ -18,7 +18,7 @@ $app->get('/hello/{name}', function ($name) use ($app) {
 
     // Do weather stuff
     $weatherData = new \RpiLifeDashboard\WeatherData\WeatherData();
-    $forecast = $weatherData->getWeatherForecast('Reading');
+    $weather = $weatherData->getCurrentWeather('Reading');
 
     /*$unsplash = (new \RpiLifeDashboard\Unsplash\Unsplash())
         ->getRandomPhoto();*/
@@ -27,23 +27,32 @@ $app->get('/hello/{name}', function ($name) use ($app) {
         ->getTransformedDepBoardWithDetails("RDG","ACT");
 
 
+    $quote = (new \RpiLifeDashboard\Quotes\RandomQuote())->getQuote();
 
-    //TODO get random quote
+
 
     return $app['twig']->render('dashboard.html.twig', array(
-        'name' => $name,
-        'forecast' => $forecast,
+        'time' => new DateTime("now"),
+        'weather' => $weather,
         'unsplash' => [
-            'url' => $unsplash->urls['custom'] ?? '',
+            'url' => $unsplash->urls['custom'] ?? 'https://images.unsplash.com/photo-1503743804510-6ed2d7322647?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=500&h=500&fit=crop&s=e49a9602d82c99224cfdd59b63593ba5',
         ],
-        'trains' => $trains
+        'trains' => $trains,
+        'quote' => $quote,
     ));
 });
 
 $app->get('/debug', function () use ($app) {
 
-    $events = (new \RpiLifeDashboard\Calendar\GoogleCalendar())->listEvents();
+    $weatherData = new \RpiLifeDashboard\WeatherData\WeatherData();
+    $object = $weatherData->getCurrentWeather('London');
 
+    var_dump($object->temperature->now);die;
+    $array = json_decode(json_encode($object->temperature->getDescription()), true);
+
+    /*$events = (new \RpiLifeDashboard\Calendar\GoogleCalendar())->listEvents();
+
+    die;
 
     print "Upcoming events:\n";
     foreach ($events as $event) {
@@ -53,12 +62,13 @@ $app->get('/debug', function () use ($app) {
         }
         printf("%s (%s)\n", $event->getSummary(), $start);
     }
-    die;
+    die;*/
 
     //$array = json_decode(json_encode($trains), true);
 
     echo '<pre>';
-    print_r($trains);
+    print_r($array);
+
     die;
 
 });

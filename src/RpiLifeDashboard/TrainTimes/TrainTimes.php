@@ -50,6 +50,7 @@ class TrainTimes
         $filterCrs = $response->GetStationBoardResult->filtercrs;
         $trains = [];
 
+
         foreach ($response->GetStationBoardResult->trainServices->service as $train) {
             $std = $train->std;
             $sta = $eta = "";
@@ -65,7 +66,7 @@ class TrainTimes
                 'std' => $std,
                 'etd' => $train->etd,
                 'departurePlatform' => $train->platform,
-                'arrivalLocation' => $response->GetStationBoardResult->locationName,
+                'arrivalLocation' => $response->GetStationBoardResult->filterLocationName,
                 'sta' => $sta,
                 'eta' => $eta,
                 'arrivalPlatform' => $response->GetStationBoardResult->platformAvailable,
