@@ -68,6 +68,43 @@
 
                 <img src="{{ unsplash.url }}">
             </div>
+            <div class="col-6">
+                <h2>Trains</h2>
+
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Dep.</th>
+                        <th>From</th>
+                        <th>To</th>
+                        <th>Arr</th>
+                        <th>Dur.</th>
+                        <th>Status</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    
+                    {% for train in trains %}
+                        <tr>
+                            <td>{{ train.std }}</td>
+                            <td>
+                                {{ train.departureLocation }}
+                                Platform: {{ train.departurePlatform }}
+                            </td>
+                            <td>
+                                {{ train.arrivalLocation }}
+                                Platform: {{ train.arrivalPlatform }}
+                            </td>
+                            <td>{{ train.sta }}</td>
+                            <td>{{ train.duration }}m</td>
+                            <td>{{ train.eta }}</td>
+                        </tr>
+                    {% endfor %}
+
+                    </tbody>
+                </table>
+
+            </div>
         </div>
 
     </div>

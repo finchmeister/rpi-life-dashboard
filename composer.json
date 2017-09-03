@@ -3,7 +3,8 @@
         "silex/silex": "~2.0",
         "twig/twig": "^2.4",
         "cmfcmf/openweathermap-php-api": "^2.2",
-        "crewlabs/unsplash": "^2.3"
+        "crewlabs/unsplash": "^2.3",
+        "google/apiclient": "^2.0"
     },
     "autoload": {
         "psr-4": { "": "src/" }

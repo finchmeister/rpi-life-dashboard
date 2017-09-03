@@ -11,7 +11,6 @@ class WeatherData
 {
     const LANG = 'en';
     const UNIT = 'metric';
-    const QUERY = 'Reading';
 
     protected $owm;
 
@@ -31,11 +30,11 @@ class WeatherData
     }
 
 
-    public function getWeatherForecast(): OpenWeatherMap\WeatherForecast
+    public function getWeatherForecast($query): OpenWeatherMap\WeatherForecast
     {
         try {
             $forecast = $this->owm->getWeatherForecast(
-                self::QUERY, self::UNIT, self::LANG
+                $query, self::UNIT, self::LANG
             );
         } catch(OWMException $e) {
             echo 'OpenWeatherMap exception: ' . $e->getMessage() . ' (Code ' . $e->getCode() . ').';

@@ -18,19 +18,49 @@ $app->get('/hello/{name}', function ($name) use ($app) {
 
     // Do weather stuff
     $weatherData = new \RpiLifeDashboard\WeatherData\WeatherData();
-    $forecast = $weatherData->getWeatherForecast();
+    $forecast = $weatherData->getWeatherForecast('Reading');
 
-    $unsplash = (new \RpiLifeDashboard\Unsplash\Unsplash())
-        ->getRandomPhoto();
+    /*$unsplash = (new \RpiLifeDashboard\Unsplash\Unsplash())
+        ->getRandomPhoto();*/
 
+    $trains = (new \RpiLifeDashboard\TrainTimes\TrainTimes())
+        ->getTransformedDepBoardWithDetails("RDG","ACT");
+
+
+
+    //TODO get random quote
 
     return $app['twig']->render('dashboard.html.twig', array(
         'name' => $name,
         'forecast' => $forecast,
         'unsplash' => [
-            'url' => $unsplash->urls['custom'],
+            'url' => $unsplash->urls['custom'] ?? '',
         ],
+        'trains' => $trains
     ));
+});
+
+$app->get('/debug', function () use ($app) {
+
+    $events = (new \RpiLifeDashboard\Calendar\GoogleCalendar())->listEvents();
+
+
+    print "Upcoming events:\n";
+    foreach ($events as $event) {
+        $start = $event->start->dateTime;
+        if (empty($start)) {
+            $start = $event->start->date;
+        }
+        printf("%s (%s)\n", $event->getSummary(), $start);
+    }
+    die;
+
+    //$array = json_decode(json_encode($trains), true);
+
+    echo '<pre>';
+    print_r($trains);
+    die;
+
 });
 
 $app->run();
